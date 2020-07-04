@@ -4,7 +4,7 @@ const moment = require("moment");
 
 mongoose.connect(
     "mongodb://127.0.0.1/horariodb",
-    { useUnifiedTopology: true },
+    { useUnifiedTopology: true, useNewUrlParser: true },
     (err) => {
         if (err) console.log(err);
     }
