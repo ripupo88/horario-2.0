@@ -1,32 +1,32 @@
-'use strict';
-const mongoose = require('mongoose');
-const moment = require('moment');
+"use strict";
+const mongoose = require("mongoose");
+const moment = require("moment");
 
 mongoose.connect(
-    'mongodb://127.0.0.1/horariodb',
-    { useNewUrlParser: true },
-    err => {
+    "mongodb://127.0.0.1/horariodb",
+    { useUnifiedTopology: true },
+    (err) => {
         if (err) console.log(err);
     }
 );
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
 
-const Usuario = require('./schemas/usuario');
-const Registro = require('./schemas/registro');
-const Empresa = require('./schemas/empresa');
+const Usuario = require("./schemas/usuario");
+const Registro = require("./schemas/registro");
+const Empresa = require("./schemas/empresa");
 
 let iniciar_DB = () => {
     Usuario.find({}, (err, res) => {
         if (err) console.log(err);
         if (res[0] == undefined) {
             f_nuevo_usuario({
-                nombre: 'Admin',
-                nif: 'Administrador',
-                role: 'ADMIN_ROLE',
-                alias: 'Admin',
-                correo: 'ripupo88@gmail.com',
-                telegram_id: 777069558
+                nombre: "Admin",
+                nif: "Administrador",
+                role: "ADMIN_ROLE",
+                alias: "Admin",
+                correo: "ripupo88@gmail.com",
+                telegram_id: 777069558,
             });
         }
     });
@@ -34,24 +34,24 @@ let iniciar_DB = () => {
 
 iniciar_DB();
 
-let f_nuevo_usuario = objeto_usuario => {
+let f_nuevo_usuario = (objeto_usuario) => {
     return new Promise((resolve, reject) => {
         let usuario = new Usuario(objeto_usuario);
 
         usuario.save((err, res) => {
             if (err) {
                 console.log(err);
-                reject('Error con la base de datos, posibles datos duplicados');
+                reject("Error con la base de datos, posibles datos duplicados");
             }
             resolve(res);
         });
     });
 };
 
-let confirma_entrada = empleado => {
+let confirma_entrada = (empleado) => {
     return new Promise((resolve, reject) => {
         Registro.find({ fin: false, empleado: empleado.id }, (err, res) => {
-            if (err) reject('error al conectar con base de datos');
+            if (err) reject("error al conectar con base de datos");
             resolve(res);
         });
     });
@@ -62,7 +62,7 @@ let f_nueva_entrada = (entrada, empleado, gps) => {
         let registro = new Registro({
             entrada,
             empleado,
-            validado: { entrada: gps }
+            validado: { entrada: gps },
         });
 
         registro.save((err, res) => {
@@ -75,7 +75,7 @@ let f_nueva_entrada = (entrada, empleado, gps) => {
 let f_nueva_salida = (salida, empleado, validado) => {
     return new Promise((resolve, reject) => {
         f_encuentra_entrada(empleado, salida)
-            .then(duration => {
+            .then((duration) => {
                 let horas = Math.floor(new moment.duration(duration).asHours());
                 if (horas >= 9) {
                     validado = false;
@@ -86,18 +86,18 @@ let f_nueva_salida = (salida, empleado, validado) => {
                         salida,
                         fin: true,
                         jornada: duration,
-                        'validado.salida': validado
+                        "validado.salida": validado,
                     },
                     (err, res) => {
                         if (err) console.log(err);
                         resolve({
                             res,
-                            jornada: duration
+                            jornada: duration,
                         });
                     }
                 );
             })
-            .catch(err => {
+            .catch((err) => {
                 console.log(err);
             });
     });
@@ -118,7 +118,7 @@ let f_encuentra_entrada = (empleado, salida) => {
 let f_busca_duplicado = (empleado, salida) => {
     return new Promise((resolve, reject) => {
         let hoy = new moment(new Date());
-        let buscar_hoy = new moment('2010-10-01T00:00:00.000Z')
+        let buscar_hoy = new moment("2010-10-01T00:00:00.000Z")
             .year(hoy.year())
             .month(hoy.month())
             .date(hoy.date());
@@ -134,24 +134,24 @@ let f_busca_duplicado = (empleado, salida) => {
     });
 };
 
-let f_confirma_telegram_id = telegram_id => {
+let f_confirma_telegram_id = (telegram_id) => {
     return new Promise((resolve, reject) => {
         Usuario.find({ telegram_id }, (err, res) => {
             if (err) {
                 console.log(err);
-                reject('Ha ocurrido un error');
-            } else if (typeof res !== 'undefined' && res.length > 0) {
+                reject("Ha ocurrido un error");
+            } else if (typeof res !== "undefined" && res.length > 0) {
                 resolve(res[0]);
             } else {
-                reject('Su ID no aparece en nuestra base de datos');
+                reject("Su ID no aparece en nuestra base de datos");
             }
         });
     });
 };
 
-let f_obten_empleados = empresa => {
+let f_obten_empleados = (empresa) => {
     return new Promise((resolve, reject) => {
-        Usuario.find({ role: 'USER_ROLE', empresa }, (err, res) => {
+        Usuario.find({ role: "USER_ROLE", empresa }, (err, res) => {
             if (err) {
                 reject(err);
             }
@@ -160,10 +160,10 @@ let f_obten_empleados = empresa => {
     });
 };
 
-let f_obten_empresa_admin = admin => {
+let f_obten_empresa_admin = (admin) => {
     return new Promise((resolve, reject) => {
         Empresa.find({ admin })
-            .populate({ path: 'admin', model: Usuario })
+            .populate({ path: "admin", model: Usuario })
             .exec((err, res) => {
                 if (err) {
                     reject(err);
@@ -176,10 +176,10 @@ let f_obten_empresa_admin = admin => {
 let f_obten_informe = (empleado, mes) => {
     return new Promise((resolve, reject) => {
         let ahora = new moment(new Date());
-        let inicio = new moment('2010-10-01T00:00:00.000Z')
+        let inicio = new moment("2010-10-01T00:00:00.000Z")
             .year(ahora.year())
             .month(ahora.month() - mes);
-        let fin = new moment('2010-10-01T00:00:00.000Z')
+        let fin = new moment("2010-10-01T00:00:00.000Z")
             .year(ahora.year())
             .month(ahora.month() - mes + 1);
 
@@ -188,8 +188,8 @@ let f_obten_informe = (empleado, mes) => {
                 empleado: empleado.id,
                 entrada: {
                     $gte: inicio,
-                    $lt: fin
-                }
+                    $lt: fin,
+                },
             },
             (err, res) => {
                 if (err) {
@@ -202,7 +202,7 @@ let f_obten_informe = (empleado, mes) => {
     });
 };
 
-let f_fin_jornada = horas => {
+let f_fin_jornada = (horas) => {
     return new Promise((resolve, reject) => {
         let jornada = new moment();
         jornada = jornada.hour(jornada.hour() - horas);
@@ -210,9 +210,9 @@ let f_fin_jornada = horas => {
         Registro.find(
             {
                 entrada: {
-                    $lt: jornada
+                    $lt: jornada,
                 },
-                fin: false
+                fin: false,
             },
             (err, res) => {
                 if (err) {
@@ -225,7 +225,7 @@ let f_fin_jornada = horas => {
     });
 };
 
-let f_empleado_por_id = empleado_id => {
+let f_empleado_por_id = (empleado_id) => {
     return new Promise((resolve, reject) => {
         Usuario.findById(empleado_id, (err, res) => {
             if (err) reject(err);
@@ -234,7 +234,7 @@ let f_empleado_por_id = empleado_id => {
     });
 };
 
-let f_crea_empresa = objeto_empresa => {
+let f_crea_empresa = (objeto_empresa) => {
     return new Promise((resolve, reject) => {
         let empresa = new Empresa(objeto_empresa);
 
@@ -242,7 +242,7 @@ let f_crea_empresa = objeto_empresa => {
             if (err) {
                 console.log(err);
                 reject(
-                    'Error con la base de datos, posible empresa ya existente'
+                    "Error con la base de datos, posible empresa ya existente"
                 );
             }
             resolve(res);
@@ -250,7 +250,7 @@ let f_crea_empresa = objeto_empresa => {
     });
 };
 
-let f_empresa = id => {
+let f_empresa = (id) => {
     return new Promise((resolve, reject) => {
         Empresa.findById(id, (err, res) => {
             if (err) console.log(err);
@@ -260,11 +260,11 @@ let f_empresa = id => {
     });
 };
 
-let f_obten_empresa = chat => {
+let f_obten_empresa = (chat) => {
     return new Promise((resolve, reject) => {
         Empresa.find(
             {
-                chat
+                chat,
             },
             (err, res) => {
                 if (err) {
@@ -272,7 +272,7 @@ let f_obten_empresa = chat => {
                 }
                 if (res[0] == undefined) {
                     reject(
-                        'No has añadido una empresa. Registra una empresa antes de crear empleados'
+                        "No has añadido una empresa. Registra una empresa antes de crear empleados"
                     );
                 }
                 resolve(res[0]);
@@ -281,14 +281,14 @@ let f_obten_empresa = chat => {
     });
 };
 
-let f_obten_admin = id_admin => {
+let f_obten_admin = (id_admin) => {
     return new Promise((resolve, reject) => {
-        console.log('id_admin', id_admin);
+        console.log("id_admin", id_admin);
         Usuario.findById(id_admin)
             .populate({
-                path: 'empresa',
+                path: "empresa",
                 model: Empresa,
-                populate: { path: 'admin', model: Usuario }
+                populate: { path: "admin", model: Usuario },
             })
             .exec((err, res) => {
                 if (err) reject(err);
@@ -300,13 +300,13 @@ let f_obten_admin = id_admin => {
 let f_validador = (id, es) => {
     return new Promise((resolve, reject) => {
         let mofificador;
-        if (es == 'entrada') {
+        if (es == "entrada") {
             mofificador = {
-                'validado.entrada': true
+                "validado.entrada": true,
             };
         } else {
             mofificador = {
-                'validado.salida': true
+                "validado.salida": true,
             };
         }
         Registro.findByIdAndUpdate(id, mofificador, (err, res) => {
@@ -317,7 +317,7 @@ let f_validador = (id, es) => {
     });
 };
 
-let f_user = user => {
+let f_user = (user) => {
     return new Promise((resolve, reject) => {
         Usuario.find({ correo: user }, (err, res) => {
             if (err) reject(err);
@@ -343,5 +343,5 @@ module.exports = {
     f_obten_admin,
     f_obten_empresa_admin,
     f_validador,
-    f_user
+    f_user,
 };
