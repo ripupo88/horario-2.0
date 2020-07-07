@@ -1,0 +1,154 @@
+{
+    "_id": ObjectId("5f03c8f1c0bd442b4046dc2e"),
+    "role": "USER_ROLE",
+    "activo": true,
+    "nombre": "Richar Pupo",
+    "nif": "7272617H",
+    "alias": "Richar",
+    "telegram_id": 823806648,
+    "empresa": ObjectId("5f03c8e1c0bd442b4046dc2d"),
+    "horarioParams": {
+        "Tienda": 5,
+        "pista": 0,
+        "manana": 0,
+        "tarde": 0,
+        "noche": 5
+    },    
+    "__v": 0
+}
+
+"horario": [
+    {
+        "trabajador": ObjectID("asdfasdgaregarfgasdfgasdfgadsfg"),
+        "fecha": "10/02/2020",
+        "semana": 28,
+        "Lunes": "L",
+        "Martes": "L",
+        "Miercoles": "N",
+        "Jueves": "N",
+        "Viernes": "N",
+        "Sabado": "N",
+        "Domingo": "N"
+    }
+],
+
+"HorarioSemana":[{    
+    "lunes": {
+        "Turnos": 3,
+        "horarios":[{
+            "nombre": "M",
+            "horaEntrada": "5:30",
+            "horaSalida": "13:30"
+        },{
+            "nombre": "T",
+            "horaEntrada": "13:30",
+            "horaSalida": "21:30"
+        },{
+            "nombre": "N",
+            "horaEntrada": "21:30",
+            "horaSalida": "5:30"
+        }]
+    }
+},{    
+    "martes": {
+        "Turnos": 3,
+        "horarios":[{
+            "nombre": "M",
+            "horaEntrada": "5:30",
+            "horaSalida": "13:30"
+        },{
+            "nombre": "T",
+            "horaEntrada": "13:30",
+            "horaSalida": "21:30"
+        },{
+            "nombre": "N",
+            "horaEntrada": "21:30",
+            "horaSalida": "5:30"
+        }]
+    }
+},{    
+    "miercoles": {
+        "Turnos": 3,
+        "horarios":[{
+            "nombre": "M",
+            "horaEntrada": "5:30",
+            "horaSalida": "13:30"
+        },{
+            "nombre": "T",
+            "horaEntrada": "13:30",
+            "horaSalida": "21:30"
+        },{
+            "nombre": "N",
+            "horaEntrada": "21:30",
+            "horaSalida": "5:30"
+        }]
+    }
+},{    
+    "Jueves": {
+        "Turnos": 3,
+        "horarios":[{
+            "nombre": "M",
+            "horaEntrada": "5:30",
+            "horaSalida": "13:30"
+        },{
+            "nombre": "T",
+            "horaEntrada": "13:30",
+            "horaSalida": "21:30"
+        },{
+            "nombre": "N",
+            "horaEntrada": "21:30",
+            "horaSalida": "5:30"
+        }]
+    }
+},{    
+    "viernes": {
+        "Turnos": 3,
+        "horarios":[{
+            "nombre": "M",
+            "horaEntrada": "5:30",
+            "horaSalida": "13:30"
+        },{
+            "nombre": "T",
+            "horaEntrada": "13:30",
+            "horaSalida": "21:30"
+        },{
+            "nombre": "N",
+            "horaEntrada": "21:30",
+            "horaSalida": "5:30"
+        }]
+    }
+},{    
+    "sabado": {
+        "Turnos": 3,
+        "horarios":[{
+            "nombre": "M",
+            "horaEntrada": "5:30",
+            "horaSalida": "13:30"
+        },{
+            "nombre": "T",
+            "horaEntrada": "13:30",
+            "horaSalida": "21:30"
+        },{
+            "nombre": "N",
+            "horaEntrada": "21:30",
+            "horaSalida": "5:30"
+        }]
+    }
+},{    
+    "domingo": {
+        "Turnos": 3,
+        "horarios":[{
+            "nombre": "M",
+            "horaEntrada": "5:30",
+            "horaSalida": "13:30"
+        },{
+            "nombre": "T",
+            "horaEntrada": "13:30",
+            "horaSalida": "21:30"
+        },{
+            "nombre": "N",
+            "horaEntrada": "21:30",
+            "horaSalida": "5:30"
+        }]
+    }
+}]
